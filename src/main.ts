@@ -1,4 +1,3 @@
-import { BlogModule } from './blog/blog.module';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
