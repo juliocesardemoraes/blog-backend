@@ -1,6 +1,6 @@
 import { User } from 'src/schemas/user.schema';
-import { UsersService } from './users/users.service';
-import { JwtAuthGuard } from './auth/jwt-auth.guard';
+import { UsersService } from '../services/users.service';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import {
   Controller,
   Get,
@@ -9,11 +9,11 @@ import {
   UseGuards,
   Body,
 } from '@nestjs/common';
-import { LocalAuthGuard } from './auth/local-auth.guard';
-import { AuthService } from './auth/auth.service';
+import { LocalAuthGuard } from '../auth/local-auth.guard';
+import { AuthService } from '../services/auth.service';
 
 @Controller()
-export class AppController {
+export class UserController {
   constructor(
     private authService: AuthService,
     private readonly UsersService: UsersService,
@@ -34,7 +34,6 @@ export class AppController {
   @UseGuards(JwtAuthGuard)
   @Post('users/create')
   async createUser(@Body() userDTO: User) {
-    console.log(userDTO);
     return this.UsersService.create(userDTO);
   }
 }

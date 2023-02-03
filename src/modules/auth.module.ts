@@ -1,15 +1,16 @@
+import { forwardRef } from '@nestjs/common/utils/forward-ref.util';
 import { Module } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { LocalStrategy } from './local.strategy';
-import { JwtStrategy } from './jwt.strategy';
-import { UsersModule } from '../users/users.module';
+import { AuthService } from '../services/auth.service';
+import { LocalStrategy } from '../auth/local.strategy';
+import { JwtStrategy } from '../auth/jwt.strategy';
+import { UsersModule } from './users.module';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
-    UsersModule,
+    forwardRef(() => UsersModule),
     PassportModule,
     ConfigModule.forRoot(),
     JwtModule.register({
