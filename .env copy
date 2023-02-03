@@ -1,0 +1,2 @@
+CONNECTION_STRING=mongoconnectionuri
+JWT_SECRET=32stringpasswordsecret
