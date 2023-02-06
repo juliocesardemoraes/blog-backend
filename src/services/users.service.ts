@@ -19,7 +19,7 @@ export class UsersService {
   }
 
   /**
-   * Function for fetching one specific user
+   * Function for fetching one specific user for authentication
    * IUserDTO = {name: string, password: string}
    * @param {User} createUserDto
    * @returns
@@ -28,6 +28,12 @@ export class UsersService {
     return await this.userModel.findOne({ ...createUserDto });
   }
 
+  /**
+   * Function for fetching one or more users based on name
+   * IUserDTO = {name: string, password: string}
+   * @param {User} createUserDto
+   * @returns
+   */
   async find(name: string): Promise<any> {
     return this.userModel.find({ name: name });
   }
