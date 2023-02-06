@@ -1,4 +1,4 @@
-import { User } from 'src/schemas/user.schema';
+import { User } from '../schemas/user.schema';
 import { UsersService } from '../services/users.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import {
@@ -21,8 +21,8 @@ export class UserController {
 
   @UseGuards(LocalAuthGuard)
   @Post('auth/login')
-  async login(@Request() req) {
-    return this.authService.login(req.user);
+  async login(@Body() userDTO: User) {
+    return this.authService.login(userDTO);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -31,9 +31,14 @@ export class UserController {
     return req.user;
   }
 
-  @UseGuards(JwtAuthGuard)
   @Post('users/create')
   async createUser(@Body() userDTO: User) {
     return this.UsersService.create(userDTO);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('users/find')
+  async find(@Body() userDTO: User) {
+    return this.UsersService.find(userDTO.name);
   }
 }
