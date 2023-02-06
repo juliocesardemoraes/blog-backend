@@ -25,7 +25,7 @@ describe('UsersService', () => {
         UsersService,
         {
           provide: getModelToken(User.name),
-          useValue: new mockUserModel('AHH'),
+          useValue: new mockUserModel('Model__test'),
         },
       ],
     }).compile();
@@ -48,8 +48,6 @@ describe('UsersService', () => {
       name: 'Ah',
       password: 'true',
     });
-    expect(userCreated).toBeDefined();
-    expect(postMock).toBeDefined();
     expect(postMock).toHaveBeenCalledTimes(1);
   });
 
@@ -60,9 +58,7 @@ describe('UsersService', () => {
       password: 'true',
     };
     const userFound = await services.findUser(user);
-    console.log(userFound);
     expect(userFound).toEqual(user);
-    expect(postMock).toBeDefined();
     expect(postMock).toHaveBeenCalledTimes(1);
   });
 });
