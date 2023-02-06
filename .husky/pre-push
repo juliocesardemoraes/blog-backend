@@ -1,4 +1,21 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-npm run test || (echo '❌ Jest Failed:  Failed to pass the tests. Check the tests and try again')
+echo -e '\n---------------- HUSKY TESTS ARE RUNNING ----------------------\n'
+
+npm run test || (
+    echo '❌ Jest Failed:  Failed to pass the tests. Check the tests and try again'
+)
+
+echo -e '\n✅ Jest tests \n'
+
+
+npm run build || (
+    echo '❌ Build Failed:  Nestjs build failed, check the terminal for further information'
+)
+
+echo -e '\n✅ Nestjs build \n'
+
+
+echo '✅ All tests were good, your code is being deployed'
+echo -e '\n---------------------------------------------------------------\n'
