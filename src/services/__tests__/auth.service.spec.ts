@@ -1,7 +1,9 @@
+import { HttpException, HttpStatus } from '@nestjs/common';
 import { AuthService } from '../auth.service';
 import { UsersService } from '../users.service';
 import { JwtService } from '@nestjs/jwt';
 import { User } from 'src/schemas/user.schema';
+import * as bcrypt from 'bcrypt';
 
 describe('AuthService', () => {
   let authService: AuthService;
@@ -24,6 +26,9 @@ describe('AuthService', () => {
         name: 'testuser',
       };
       jest.spyOn(usersService, 'findUser').mockResolvedValue(userDTO);
+      jest.spyOn(bcrypt, 'compare').mockImplementation((pass, salt) => {
+        return true;
+      });
 
       const result = await authService.validateUser(userDTO);
       expect(result).toEqual(returnOnlyName);
@@ -38,7 +43,17 @@ describe('AuthService', () => {
         username: 'testuser',
         password: 'testpassword',
       });
+      jest.spyOn(bcrypt, 'compare').mockImplementation((pass, salt) => {
+        return false;
+      });
+      await expect(authService.validateUser(userDTO)).rejects.toThrow(
+        HttpException,
+      );
+    });
 
+    it('should return null if credentials are invalid', async () => {
+      const userDTO = { name: 'incorrect user', password: 'password' };
+      jest.spyOn(usersService, 'findUser').mockResolvedValue(null);
       const result = await authService.validateUser(userDTO);
       expect(result).toBeNull();
     });

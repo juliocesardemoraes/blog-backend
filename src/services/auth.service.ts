@@ -23,11 +23,12 @@ export class AuthService {
     if (user) {
       const isMatch = await bcrypt.compare(userDTO.password, user.password);
 
-      if (isMatch === false)
+      if (isMatch === false) {
         throw new HttpException(
           'Password or Email is incorrect',
           HttpStatus.BAD_REQUEST,
         );
+      }
 
       const { password, ...result } = user;
       return result;

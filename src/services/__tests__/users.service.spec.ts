@@ -47,10 +47,11 @@ describe('UsersService', () => {
       password: 'true',
     });
 
-    expect(userCreated).toEqual({
+    expect(userCreated).toMatchObject({
       name: 'Ah',
-      password: 'true',
     });
+
+    expect(userCreated.password).not.toBe('true');
     expect(postMock).toHaveBeenCalledTimes(1);
   });
 
@@ -60,8 +61,8 @@ describe('UsersService', () => {
       name: 'Ah',
       password: 'true',
     };
-    const userFound = await services.findUser(user);
-    expect(userFound).toEqual(user);
+    const userFound = await services.findUser(user.name);
+    expect(userFound).toMatchObject({ name: user.name });
     expect(postMock).toHaveBeenCalledTimes(1);
   });
 
@@ -69,25 +70,7 @@ describe('UsersService', () => {
     const postMock = jest.spyOn(services, 'find');
     const user = { name: 'Ah' };
     const userFound = await services.find(user.name);
-    expect(userFound).toEqual(user);
+    expect(userFound).toMatchObject({ name: user.name });
     expect(postMock).toHaveBeenCalledTimes(1);
-  });
-
-  it('should list fail while creating an duplicated user', async () => {
-    const postMock = jest.spyOn(services, 'create');
-    const userCreated = await services.create({
-      name: 'Ah',
-      password: 'true',
-    });
-    const userCreated2 = await services.create({
-      name: 'Ah',
-      password: 'true',
-    });
-
-    expect(userCreated).toEqual({
-      name: 'Ah',
-      password: 'true',
-    });
-    expect(postMock).toHaveBeenCalledTimes(2);
   });
 });

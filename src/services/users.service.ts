@@ -24,8 +24,7 @@ export class UsersService {
 
   /**
    * Function for fetching one specific user for authentication
-   * IUserDTO = {name: string, password: string}
-   * @param {string} userDto
+   * @param {string} name username
    * @returns
    */
   async findUser(name: string): Promise<any> {
