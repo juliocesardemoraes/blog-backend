@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 
 import { Model } from 'mongoose';
 import { User, UserDocument } from '../schemas/user.schema';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -11,27 +12,29 @@ export class UsersService {
   /**
    * Function for creating users
    * IUserDTO = {name: string, password: string}
-   * @param {User} createUserDto
+   * @param {User} userDto
    * @returns
    */
-  async create(createUserDto: User): Promise<User> {
-    return await this.userModel.create({ ...createUserDto });
+  async create(userDto: User): Promise<User> {
+    const salt = await bcrypt.genSalt();
+    const hash = await bcrypt.hash(userDto.password, salt);
+    const userHashed = { ...userDto, password: hash };
+    return await this.userModel.create({ ...userHashed });
   }
 
   /**
    * Function for fetching one specific user for authentication
    * IUserDTO = {name: string, password: string}
-   * @param {User} createUserDto
+   * @param {string} userDto
    * @returns
    */
-  async findUser(createUserDto: User): Promise<any> {
-    return await this.userModel.findOne({ ...createUserDto });
+  async findUser(name: string): Promise<any> {
+    return await this.userModel.findOne({ name: name });
   }
 
   /**
    * Function for fetching one or more users based on name
-   * IUserDTO = {name: string, password: string}
-   * @param {User} createUserDto
+   * @param {string} name
    * @returns
    */
   async find(name: string): Promise<any> {

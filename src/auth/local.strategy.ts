@@ -1,6 +1,6 @@
 import { Strategy } from 'passport-local';
 import { PassportStrategy } from '@nestjs/passport';
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { AuthService } from '../services/auth.service';
 import { User } from 'src/schemas/user.schema';
 
@@ -17,7 +17,10 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     };
     const user = await this.authService.validateUser(userDTO);
     if (!user) {
-      throw new UnauthorizedException();
+      throw new HttpException(
+        'Password or Email is incorrect',
+        HttpStatus.BAD_REQUEST,
+      );
     }
     return user;
   }
