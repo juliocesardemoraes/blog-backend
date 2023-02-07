@@ -18,6 +18,9 @@ describe('UsersService', () => {
       this.findOne = (dataUser) => {
         return dataUser;
       };
+      this.find = (dataUser) => {
+        return dataUser;
+      };
     }
 
     const module: TestingModule = await Test.createTestingModule({
@@ -51,7 +54,7 @@ describe('UsersService', () => {
     expect(postMock).toHaveBeenCalledTimes(1);
   });
 
-  it('should return a created user', async () => {
+  it('should return a created user for authentication', async () => {
     const postMock = jest.spyOn(services, 'findUser');
     const user: User = {
       name: 'Ah',
@@ -60,5 +63,31 @@ describe('UsersService', () => {
     const userFound = await services.findUser(user);
     expect(userFound).toEqual(user);
     expect(postMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('should list any created user', async () => {
+    const postMock = jest.spyOn(services, 'find');
+    const user = { name: 'Ah' };
+    const userFound = await services.find(user.name);
+    expect(userFound).toEqual(user);
+    expect(postMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('should list fail while creating an duplicated user', async () => {
+    const postMock = jest.spyOn(services, 'create');
+    const userCreated = await services.create({
+      name: 'Ah',
+      password: 'true',
+    });
+    const userCreated2 = await services.create({
+      name: 'Ah',
+      password: 'true',
+    });
+
+    expect(userCreated).toEqual({
+      name: 'Ah',
+      password: 'true',
+    });
+    expect(postMock).toHaveBeenCalledTimes(2);
   });
 });
