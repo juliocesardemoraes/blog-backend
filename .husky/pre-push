@@ -5,6 +5,7 @@ echo -e '\n---------------- HUSKY TESTS ARE RUNNING ----------------------\n'
 
 npm run test || (
     echo '❌ Jest Failed:  Failed to pass the tests. Check the tests and try again'
+    false;
 )
 
 echo -e '\n✅ Jest tests \n'
@@ -12,6 +13,7 @@ echo -e '\n✅ Jest tests \n'
 
 npm run build || (
     echo '❌ Build Failed:  Nestjs build failed, check the terminal for further information'
+    false;
 )
 
 echo -e '\n✅ Nestjs build \n'
