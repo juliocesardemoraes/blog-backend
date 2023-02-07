@@ -10,12 +10,13 @@ export class MongoExceptionFilter implements ExceptionFilter {
 
     switch (error.code) {
       case 11000:
-        response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+        response.status(HttpStatus.BAD_REQUEST).json({
           statusCode: HttpStatus.BAD_REQUEST,
           timestamp: new Date().toISOString(),
           path: request.url,
           error: error.message,
         });
+        break;
       default:
         response.status(HttpStatus.BAD_REQUEST).json({
           statusCode: HttpStatus.BAD_REQUEST,
@@ -23,6 +24,7 @@ export class MongoExceptionFilter implements ExceptionFilter {
           path: request.url,
           error: error.message,
         });
+        break;
     }
   }
 }
