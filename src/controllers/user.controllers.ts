@@ -9,21 +9,10 @@ import {
   UseGuards,
   Body,
 } from '@nestjs/common';
-import { LocalAuthGuard } from '../auth/local-auth.guard';
-import { AuthService } from '../services/auth.service';
 
 @Controller()
 export class UserController {
-  constructor(
-    private authService: AuthService,
-    private readonly UsersService: UsersService,
-  ) {}
-
-  @UseGuards(LocalAuthGuard)
-  @Post('auth/login')
-  async login(@Body() userDTO: User) {
-    return this.authService.login(userDTO);
-  }
+  constructor(private readonly UsersService: UsersService) {}
 
   @UseGuards(JwtAuthGuard)
   @Get('users/profile')

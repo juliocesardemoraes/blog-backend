@@ -1,3 +1,4 @@
+import { AuthController } from './controllers/auth.controllers';
 import { UserController } from './controllers/user.controllers';
 import { DatabaseModule } from './database/database.module';
 import { Module } from '@nestjs/common';
@@ -7,6 +8,6 @@ import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [AuthModule, UsersModule, DatabaseModule, ConfigModule.forRoot()],
-  controllers: [UserController],
+  controllers: [UserController, AuthController],
 })
 export class AppModule {}
