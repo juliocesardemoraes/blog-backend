@@ -28,7 +28,6 @@ export class AuthService {
           'Password or Email is incorrect',
           HttpStatus.BAD_REQUEST,
         );
-        console.log('AQUI');
       }
 
       const { password, ...result } = user;
